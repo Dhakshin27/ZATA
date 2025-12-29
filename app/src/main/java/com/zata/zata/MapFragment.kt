@@ -99,29 +99,28 @@ class MapFragment : Fragment() {
 
                         val point = GeoPoint(report.lat, report.lng)
 
-                        val marker = Marker(mapView).apply {
-                            position = point
-                            title = "Rock Bee Colony"
+// 1️⃣ Create drawable FIRST
+                        val drawable = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_bee_marker
+                        )
 
-                            val drawable = ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_bee_marker
-                            )
+// 2️⃣ Force bounds (VERY IMPORTANT)
+                        drawable?.setBounds(0, 0, 96, 96)
 
-                            drawable?.setBounds(0, 0, 72, 72)
+// 3️⃣ Create marker
+                        val marker = Marker(mapView)
+                        marker.position = point
+                        marker.title = "Rock Bee Colony"
+                        marker.icon = drawable
+                        marker.subDescription =
+                            "Confidence: ${(report.confidence * 100).toInt()}%"
+                        marker.setAnchor(
+                            Marker.ANCHOR_CENTER,
+                            Marker.ANCHOR_BOTTOM
+                        )
 
-                            icon = drawable
-
-
-                            subDescription =
-                                "Confidence: ${(report.confidence * 100).toInt()}%"
-
-                            setAnchor(
-                                Marker.ANCHOR_CENTER,
-                                Marker.ANCHOR_BOTTOM
-                            )
-                        }
-
+// 4️⃣ Add to map
                         mapView.overlays.add(marker)
 
 
