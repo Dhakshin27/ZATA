@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Core Brand Colors -->
+    <color name="zata_primary">#0F172A</color>        <!-- Deep Blue-Black -->
+    <color name="zata_secondary">#1E293B</color>      <!-- Slate Dark -->
+    <color name="zata_accent">#F59E0B</color>         <!-- Amber (Bee-inspired, not yellow) -->
+
+    <!-- Backgrounds -->
+    <color name="zata_background">#020617</color>     <!-- Near-black -->
+    <color name="zata_surface">#111827</color>        <!-- Card surface -->
+
+    <!-- Bottom Navigation -->
+    <color name="zata_bottom_nav">#020617</color>
+
+    <!-- Text -->
+    <color name="text_primary">#E5E7EB</color>        <!-- Soft white -->
+    <color name="text_secondary">#9CA3AF</color>
+
+    <!-- Icons / States -->
+    <color name="icon_active">#F59E0B</color>         <!-- Amber -->
+    <color name="icon_inactive">#6B7280</color>       <!-- Muted gray -->
+
+    <!-- Alerts -->
+    <color name="alert_red">#EF4444</color>
+    <color name="alert_orange">#F97316</color>
+    <color name="alert_green">#22C55E</color>
+
+</resources>

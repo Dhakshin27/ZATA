@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "997044335710",
+    "project_id": "zata-bb82a",
+    "storage_bucket": "zata-bb82a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:997044335710:android:cb5e268d4d0f11a55d30cf",
+        "android_client_info": {
+          "package_name": "com.zata.zata"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYy0iiSkHlIMb-0H6VOQYIwX07OiZCWJw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
