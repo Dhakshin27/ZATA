@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -17,6 +18,7 @@ import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import com.google.firebase.firestore.FirebaseFirestore
 import com.zata.zata.model.ColonyReport
+import android.util.Log
 
 class MapFragment : Fragment() {
 
@@ -48,12 +50,18 @@ class MapFragment : Fragment() {
     private fun setupMap() {
         mapView.setTileSource(TileSourceFactory.MAPNIK)
         mapView.setMultiTouchControls(true)
+
+
+        mapView.zoomController.setVisibility(
+            org.osmdroid.views.CustomZoomButtonsController.Visibility.NEVER
+        )
+
         mapView.controller.setZoom(14.0)
 
-        // Default fallback location (Bangalore)
         val defaultPoint = GeoPoint(12.9716, 77.5946)
         mapView.controller.setCenter(defaultPoint)
     }
+
 
     private fun enableUserLocation() {
         locationOverlay = MyLocationNewOverlay(
@@ -86,13 +94,28 @@ class MapFragment : Fragment() {
                     // Show only confident rock-bee colonies
                     if (report.isRockBee && report.confidence >= 0.6f) {
 
+                        Log.d("MapFragment", "Adding bee marker at ${report.lat}, ${report.lng}")
+
+
                         val point = GeoPoint(report.lat, report.lng)
 
                         val marker = Marker(mapView).apply {
                             position = point
                             title = "Rock Bee Colony"
+
+                            val drawable = ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_bee_marker
+                            )
+
+                            drawable?.setBounds(0, 0, 72, 72)
+
+                            icon = drawable
+
+
                             subDescription =
                                 "Confidence: ${(report.confidence * 100).toInt()}%"
+
                             setAnchor(
                                 Marker.ANCHOR_CENTER,
                                 Marker.ANCHOR_BOTTOM
@@ -100,7 +123,7 @@ class MapFragment : Fragment() {
                         }
 
                         mapView.overlays.add(marker)
-                        mapView.controller.setCenter(point)
+
 
                     }
                 }
