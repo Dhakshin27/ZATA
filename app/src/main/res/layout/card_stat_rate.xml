@@ -10,26 +10,26 @@
     app:cardBackgroundColor="@color/zata_surface">
 
     <LinearLayout
-        android:padding="16dp"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Total Reports"
+            android:layout_height="wrap_content"
+            android:text="Confirmation Rate"
             android:textSize="12sp"
             android:textColor="@color/text_secondary"/>
 
         <TextView
-            android:layout_height="wrap_content"
+            android:id="@+id/tv_rate"
             android:layout_width="wrap_content"
-            android:id="@+id/tv_total"
-            android:text="0"
+            android:layout_height="wrap_content"
+            android:text="0%"
             android:textSize="28sp"
             android:textStyle="bold"
-            android:textColor="@color/text_primary"/>
+            android:textColor="@color/zata_accent"/>
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

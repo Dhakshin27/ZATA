@@ -84,7 +84,7 @@ class MapFragment : Fragment() {
                     val report = doc.toObject(ColonyReport::class.java)
 
                     // Show only confident rock-bee colonies
-                    if (report.isRockBee && report.confidence >= 0.6f) {
+                    if (report.rockBee && report.confidence >= 0.6f) {
 
                         val point = GeoPoint(report.lat, report.lng)
 

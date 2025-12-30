@@ -127,18 +127,18 @@ class ReportFragment : Fragment() {
                     requireContext().getColor(R.color.alert_green)
                 )
 
-                saveColony(lat, lng, confidence)
+                saveColony(lat, lng, confidence.toDouble())
             }
         }
     }
 
     // ☁️ Save ONLY LOCATION + ML DATA
-    private fun saveColony(lat: Double, lng: Double, confidence: Float) {
+    private fun saveColony(lat: Double, lng: Double, confidence: Double) {
 
         val report = ColonyReport(
             lat = lat,
             lng = lng,
-            isRockBee = true,
+            rockBee = true,
             confidence = confidence,
             timestamp = System.currentTimeMillis()
         )
