@@ -1,12 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- MAP -->
     <org.osmdroid.views.MapView
         android:id="@+id/osm_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:keepScreenOn="true"/>
+
+    <!-- FLOATING MAP CONTROLS -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="120dp"
+        android:background="@drawable/map_fab_container_bg"
+        android:padding="8dp">
+
+        <!-- My Location -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_my_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:src="@drawable/ic_my_location"
+            app:backgroundTint="@color/zata_surface"
+            app:tint="@color/zata_accent"
+            app:elevation="6dp"
+            app:fabSize="mini"/>
+
+        <!-- Nearest Colony -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_nearest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_near_me"
+            app:backgroundTint="@color/zata_surface"
+            app:tint="@color/zata_accent"
+            app:elevation="6dp"
+            app:fabSize="mini"/>
+
+    </LinearLayout>
 
 </FrameLayout>
