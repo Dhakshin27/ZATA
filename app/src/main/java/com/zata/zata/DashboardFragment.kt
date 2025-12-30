@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,8 +16,9 @@ class DashboardFragment : Fragment() {
 
     private lateinit var tvTotal: TextView
     private lateinit var tvConfirmed: TextView
-    private lateinit var tvAvgConfidence: TextView
-    private lateinit var tvLastReport: TextView
+    private lateinit var tvAvg: TextView
+    private lateinit var tvLast: TextView
+    private lateinit var progressConfidence: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,13 +28,13 @@ class DashboardFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_dashboard, container, false)
 
-        tvTotal = view.findViewById(R.id.tv_total_colonies)
-        tvConfirmed = view.findViewById(R.id.tv_confirmed_colonies)
-        tvAvgConfidence = view.findViewById(R.id.tv_avg_confidence)
-        tvLastReport = view.findViewById(R.id.tv_last_report)
+        tvTotal = view.findViewById(R.id.tv_total)
+        tvConfirmed = view.findViewById(R.id.tv_confirmed)
+        tvAvg = view.findViewById(R.id.tv_avg_confidence)
+        tvLast = view.findViewById(R.id.tv_last_report)
+        progressConfidence = view.findViewById(R.id.progress_confidence)
 
         loadDashboardData()
-
         return view
     }
 
@@ -40,41 +42,45 @@ class DashboardFragment : Fragment() {
 
         FirebaseFirestore.getInstance()
             .collection("colonies")
-            .get()
-            .addOnSuccessListener { documents ->
+            .addSnapshotListener { snapshots, error ->
 
-                var total = 0
-                var confirmed = 0
-                var confidenceSum = 0f
-                var lastTimestamp: Long? = null
+                if (snapshots == null || error != null) return@addSnapshotListener
 
-                for (doc in documents) {
-                    val report = doc.toObject(ColonyReport::class.java)
-                    total++
-
-                    confidenceSum += report.confidence
-
-                    if (report.isRockBee && report.confidence >= 0.6f) {
-                        confirmed++
-                    }
-
-                    val ts = doc.getTimestamp("timestamp")?.toDate()?.time
-                    if (ts != null && (lastTimestamp == null || ts > lastTimestamp!!)) {
-                        lastTimestamp = ts
-                    }
+                val reports = snapshots.documents.mapNotNull {
+                    it.toObject(ColonyReport::class.java)
                 }
 
-                tvTotal.text = "Total Colonies: $total"
-                tvConfirmed.text = "Confirmed Rock Bee Colonies: $confirmed"
+                val total = reports.size
+                val confirmed = reports.count { it.isRockBee }
 
-                val avg = if (total > 0) (confidenceSum / total) * 100 else 0f
-                tvAvgConfidence.text =
-                    "Average Confidence: ${avg.toInt()}%"
+                val avgConfidence =
+                    reports
+                        .filter { it.isRockBee }
+                        .map { it.confidence }
+                        .average()
+                        .takeIf { !it.isNaN() }
+                        ?.times(100)
+                        ?.toInt() ?: 0
 
-                tvLastReport.text = lastTimestamp?.let {
-                    val sdf = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
-                    "Last Reported: ${sdf.format(Date(it))}"
-                } ?: "Last Reported: --"
+                val lastTimestamp =
+                    reports.maxOfOrNull { it.timestamp }
+
+                // UI updates
+                tvTotal.text = total.toString()
+                tvConfirmed.text = confirmed.toString()
+                tvAvg.text = "$avgConfidence%"
+                progressConfidence.progress = avgConfidence
+
+                tvLast.text =
+                    if (lastTimestamp != null)
+                        "Last Reported: ${formatDate(lastTimestamp)}"
+                    else
+                        "No reports yet"
             }
+    }
+
+    private fun formatDate(timestamp: Long): String {
+        val sdf = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault())
+        return sdf.format(Date(timestamp))
     }
 }

@@ -1,72 +1,121 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/zata_background"
     android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:spacing="16dp">
+        android:orientation="vertical">
 
-        <!-- Total Colonies -->
-        <com.google.android.material.card.MaterialCardView
+        <!-- Header -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rock Bee Monitoring"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Live colony intelligence"
+            android:textSize="14sp"
+            android:textColor="@color/text_secondary"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- Stats Row -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp">
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginBottom="20dp">
 
-            <TextView
-                android:id="@+id/tv_total_colonies"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Total Colonies: --"
-                android:textSize="18sp"
-                android:padding="16dp"/>
-        </com.google.android.material.card.MaterialCardView>
+            <include layout="@layout/card_stat_total"/>
+            <include layout="@layout/card_stat_confirmed"/>
 
-        <!-- Confirmed Rock Bees -->
+        </LinearLayout>
+
+        <!-- Confidence Card -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp">
+            android:layout_height="200dp"
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp"
+            app:cardBackgroundColor="@color/zata_surface">
 
-            <TextView
-                android:id="@+id/tv_confirmed_colonies"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Confirmed Rock Bee Colonies: --"
-                android:textSize="18sp"
-                android:padding="16dp"/>
-        </com.google.android.material.card.MaterialCardView>
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
 
-        <!-- Average Confidence -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp">
+                <ProgressBar
+                    android:id="@+id/progress_confidence"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:progressDrawable="@drawable/circular_progress"
+                    android:max="100"/>
 
-            <TextView
-                android:id="@+id/tv_avg_confidence"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Average Confidence: --"
-                android:textSize="18sp"
-                android:padding="16dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_avg_confidence"
+                    android:text="--%"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/zata_accent"
+                    android:layout_marginTop="-95dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Average Detection Confidence"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_secondary"
+                    android:layout_marginTop="12dp"/>
+
+            </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Last Report -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@color/zata_surface">
 
-            <TextView
-                android:id="@+id/tv_last_report"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Last Reported: --"
-                android:textSize="18sp"
-                android:padding="16dp"/>
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Latest Activity"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_secondary"
+                    android:layout_marginBottom="6dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_last_report"
+                    android:text="No reports yet"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_primary"/>
+
+            </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>

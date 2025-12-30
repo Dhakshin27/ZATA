@@ -38,10 +38,7 @@ class ReportFragment : Fragment() {
     private lateinit var txtStatus: TextView
     private lateinit var progress: ProgressBar
 
-
     private var imageBitmap: Bitmap? = null
-    private var latitude = 0.0
-    private var longitude = 0.0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,62 +51,39 @@ class ReportFragment : Fragment() {
         imgPreview = view.findViewById(R.id.img_preview)
         btnCapture = view.findViewById(R.id.btn_capture)
         btnSubmit = view.findViewById(R.id.btn_submit)
-
-        btnCapture.setOnClickListener { openCamera() }
-
-        btnSubmit.setOnClickListener { uploadReport() }
         txtStatus = view.findViewById(R.id.txt_status)
         progress = view.findViewById(R.id.progress_analysis)
 
+        btnCapture.setOnClickListener { openCamera() }
+        btnSubmit.setOnClickListener { startReportFlow() }
 
+        btnSubmit.isEnabled = false
         return view
     }
 
-    // 📍 Get accurate location
-    private fun getLocation() {
-        val locationClient =
-            LocationServices.getFusedLocationProviderClient(requireActivity())
-
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) return
-
-        locationClient.lastLocation.addOnSuccessListener { location ->
-            location?.let {
-                latitude = it.latitude
-                longitude = it.longitude
-            }
-        }
-    }
-
-    // 📸 Open camera
+    // 📸 Camera
     private fun openCamera() {
         cameraLauncher.launch(null)
     }
 
-
     private val cameraLauncher =
         registerForActivityResult(
             androidx.activity.result.contract.ActivityResultContracts.TakePicturePreview()
-        ) { bitmap: Bitmap? ->
-            if (bitmap != null) {
-                imageBitmap = bitmap
-                imgPreview.setImageBitmap(bitmap)
-                txtStatus.text = "Image ready for analysis"
+        ) { bitmap ->
+            bitmap?.let {
+                imageBitmap = it
+                imgPreview.setImageBitmap(it)
+                txtStatus.text = "Image captured"
                 btnSubmit.isEnabled = true
             }
         }
 
-
-    // ☁️ Upload image + save Firestore
-    private fun uploadReport() {
+    // 🚀 MAIN FLOW
+    private fun startReportFlow() {
         if (imageBitmap == null) return
 
         progress.visibility = View.VISIBLE
         btnSubmit.isEnabled = false
-        btnCapture.isEnabled = false
         txtStatus.text = "Getting location..."
 
         val locationClient =
@@ -120,26 +94,23 @@ class ReportFragment : Fragment() {
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            resetUIOnFailure("Location permission not granted")
+            showError("Location permission required")
             return
         }
 
         locationClient.lastLocation.addOnSuccessListener { location ->
-
             if (location == null) {
-                resetUIOnFailure("Unable to get location. Try again.")
+                showError("Unable to get location")
                 return@addOnSuccessListener
             }
 
-            latitude = location.latitude
-            longitude = location.longitude
+            val lat = location.latitude
+            val lng = location.longitude
 
             txtStatus.text = "Analyzing image..."
 
             analyzeRockBee(imageBitmap!!) { isRockBee, confidence ->
-
                 progress.visibility = View.GONE
-                btnCapture.isEnabled = true
                 btnSubmit.isEnabled = true
 
                 if (!isRockBee) {
@@ -156,34 +127,18 @@ class ReportFragment : Fragment() {
                     requireContext().getColor(R.color.alert_green)
                 )
 
-                saveToFirestore(isRockBee, confidence)
+                saveColony(lat, lng, confidence)
             }
         }
     }
 
-
-
-    // Helper to keep the code clean and re-enable UI on errors
-    private fun resetUIOnFailure(message: String) {
-        progress.visibility = View.GONE
-        btnSubmit.isEnabled = true
-        btnCapture.isEnabled = true
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-    }
-
-
-
-    private fun saveToFirestore(
-        isRockBee: Boolean,
-        confidence: Float
-    ) {
-        Log.d("REPORT",
-            "Saving colony at $latitude , $longitude")
+    // ☁️ Save ONLY LOCATION + ML DATA
+    private fun saveColony(lat: Double, lng: Double, confidence: Float) {
 
         val report = ColonyReport(
-            lat = latitude,
-            lng = longitude,
-            isRockBee = isRockBee,
+            lat = lat,
+            lng = lng,
+            isRockBee = true,
             confidence = confidence,
             timestamp = System.currentTimeMillis()
         )
@@ -197,21 +152,19 @@ class ReportFragment : Fragment() {
                     "Colony marked on map",
                     Toast.LENGTH_SHORT
                 ).show()
-                parentFragmentManager.popBackStack()
             }
-            .addOnFailureListener { e ->
-                Log.e("FIRESTORE", "Failed to save colony", e)
-                Toast.makeText(
-                    context,
-                    "Firestore error: ${e.message}",
-                    Toast.LENGTH_LONG
-                ).show()
+            .addOnFailureListener {
+                showError("Failed to save data")
             }
-
     }
 
+    private fun showError(msg: String) {
+        progress.visibility = View.GONE
+        btnSubmit.isEnabled = true
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+    }
 
-
+    // 🧠 ML ANALYSIS
     private fun analyzeRockBee(
         bitmap: Bitmap,
         callback: (Boolean, Float) -> Unit
@@ -226,29 +179,18 @@ class ReportFragment : Fragment() {
 
         labeler.process(image)
             .addOnSuccessListener { labels ->
-
-                var isRockBee = false
-                var confidence = 0f
-
                 for (label in labels) {
                     val text = label.text.lowercase()
-
-                    if (
-                        text.contains("bee") ||
-                        text.contains("insect") ||
-                        text.contains("wasp")
-                    ) {
-                        isRockBee = true
-                        confidence = label.confidence
-                        break
+                    if (text.contains("bee") || text.contains("insect")) {
+                        callback(true, label.confidence)
+                        return@addOnSuccessListener
                     }
                 }
-
-                callback(isRockBee, confidence)
+                callback(false, 0f)
             }
             .addOnFailureListener {
                 callback(false, 0f)
             }
     }
-
 }
+
