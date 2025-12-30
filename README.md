@@ -78,3 +78,7 @@ Due to API constraints regarding vector scaling in OSMDroid, a custom conversion
 The application requires the implementation of functional triggers for the Floating Action Buttons (FABs):
 *   **Nearest Colony:** A function to calculate the proximity of colonies relative to the user's coordinates, followed by an animated transition to the closest marker.
 *   **Auto-Zoom:** An automated routine to adjust the map's bounding box to encompass all active colony markers upon successful data retrieval from Firestore.
+
+
+DEMO VIDEO LINK:
+https://drive.google.com/file/d/1xDsRAy6SSvaksTVE0DKIiyo2TALv03Jq/view?usp=sharing
