@@ -11,42 +11,51 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="18dp">
+        android:padding="20dp">
 
-        <!-- PAGE TITLE -->
+        <!-- TITLE -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Bee Awareness &amp; Rock Bee Safety"
             android:textColor="#38BDF8"
-            android:textSize="22sp"
+            android:textSize="24sp"
             android:textStyle="bold"
-            android:letterSpacing="0.04"
             android:fontFamily="@font/playfairdisplay_variablefont_wght"
-            android:paddingBottom="10dp" />
+            android:letterSpacing="0.04"
+            android:paddingBottom="12dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="In recent years, bee populations have declined due to habitat loss, pesticide use, climate change, and human disturbance. Lack of awareness often leads to unnecessary destruction of bee colonies, especially wild species like rock bees. Educating people about bee behavior and ecological importance is a key step toward conservation"
-            android:textColor="#F59E0B"
-            android:textSize="14sp"
-            android:alpha="0.85"
-            android:paddingBottom="20dp" />
-        <!--            android:fontFamily="@font/bitter_variablefont_wght"-->
-
-
-        <!-- IMAGE CARD: TYPES OF BEES -->
+        <!-- INTRO CARD -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="14dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="22dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#020617">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bee populations are declining due to habitat loss, pesticide use, climate change, and human disturbance. Wild species like rock bees are often misunderstood and destroyed out of fear. Awareness and responsible observation are essential to protect these vital pollinators."
+                android:textColor="#F59E0B"
+                android:textSize="14sp"
+
+                android:lineSpacingExtra="6dp"
+                android:padding="16dp" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- IMAGE -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="16dp"
             app:cardElevation="6dp">
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="180dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/bee_types_placeholder" />
         </androidx.cardview.widget.CardView>
@@ -57,76 +66,72 @@
             android:layout_height="wrap_content"
             android:text="Types of Bees in India"
             android:textColor="#38BDF8"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:paddingBottom="6dp" />
-        <!--            android:fontFamily="@font/playfairdisplay_variablefont_wght"-->
-
+            android:fontFamily="@font/playfairdisplay_variablefont_wght"
+            android:paddingBottom="8dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="• Rock Bee (Apis dorsata) – Large, aggressive, open hives at height.\n\n• Indian Honey Bee (Apis cerana) – Domesticated, commonly used in beekeeping.\n\n• Little Bee (Apis florea) – Small-sized, low honey yield.\n\n• Stingless Bees (Trigona) – Tiny, non-stinging, medicinal honey."
+            android:text="• Rock Bee (Apis dorsata) – Large, aggressive, open hives at height\n• Indian Honey Bee (Apis cerana) – Domesticated and commonly used\n• Little Bee (Apis florea) – Small-sized with low honey yield\n• Stingless Bees (Trigona) – Non-stinging, medicinal honey"
             android:textColor="#F59E0B"
-            android:textSize="12sp"
+            android:textSize="13sp"
 
-            android:lineSpacingExtra="5dp"
+            android:lineSpacingExtra="6dp"
             android:paddingBottom="22dp" />
-        <!--        android:fontFamily="@font/bitter_variablefont_wght"-->
 
-        <!-- IMAGE CARD: ROCK BEE HIVE -->
+        <!-- IMAGE -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="14dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="16dp"
             app:cardElevation="6dp">
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="180dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/rock_bee_hive_placeholder" />
         </androidx.cardview.widget.CardView>
 
-        <!-- SECTION -->
+        <!-- LOCATION -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Rock Bees – Location Clues"
             android:textColor="#38BDF8"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:fontFamily="@font/playfairdisplay_variablefont_wght"
-            android:paddingBottom="6dp" />
+            android:paddingBottom="8dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Rock bees build large exposed honeycombs at elevated locations. Always scan upward."
+            android:text="Rock bees build exposed honeycombs at elevated and undisturbed locations. Always observe by scanning upward."
             android:textColor="#F59E0B"
             android:textSize="14sp"
-            android:paddingBottom="6dp" />
-        <!--            android:fontFamily="@font/bitter_variablefont_wght"-->
 
+            android:paddingBottom="6dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Common locations:\n• Rock cliffs and hill faces\n• Under bridges and flyovers\n• Tall buildings\n• Forest trees and quarry walls"
+            android:text="• Rock cliffs and hill faces\n• Under bridges and flyovers\n• Tall buildings\n• Forest trees and quarry walls"
             android:textColor="#F59E0B"
-            android:textSize="12sp"
-            android:lineSpacingExtra="5dp"
+            android:textSize="13sp"
+
+            android:lineSpacingExtra="6dp"
             android:paddingBottom="22dp" />
-        <!--            android:fontFamily="@font/bitter_variablefont_wght"-->
 
-
-        <!-- IMAGE CARD: SAFETY -->
+        <!-- SAFETY IMAGE -->
         <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="350dp"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="14dp"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="16dp"
             app:cardElevation="6dp">
 
             <ImageView
@@ -136,72 +141,56 @@
                 android:src="@drawable/bee_safety_placeholder" />
         </androidx.cardview.widget.CardView>
 
-        <!-- SECTION -->
+        <!-- SAFETY -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Rock Bee Behavior &amp; Safety"
             android:textColor="#38BDF8"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:fontFamily="@font/playfairdisplay_variablefont_wght"
-            android:paddingBottom="6dp" />
+            android:paddingBottom="8dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Rock bees are highly defensive. Disturbance can trigger a coordinated mass attack."
+            android:text="Rock bees are highly defensive and respond collectively to threats."
             android:textColor="#F59E0B"
             android:textSize="14sp"
-            android:paddingBottom="14dp" />
-        <!--            android:fontFamily="@font/bitter_variablefont_wght"-->
 
+            android:paddingBottom="10dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="DO:\n• Keep 30–50 m distance\n• Wear full-sleeve clothing\n• Use camera zoom\n• Stay calm\n\nDON’T:\n• Do not use flash\n• Do not shout or throw objects\n• Never attempt honey collection"
             android:textColor="#F59E0B"
-            android:textSize="12sp"
-            android:lineSpacingExtra="5dp"
-            android:paddingBottom="28dp" />
-        <!--            android:fontFamily="@font/bitter_variablefont_wght"-->
+            android:textSize="13sp"
 
-        <!-- SECTION -->
+            android:lineSpacingExtra="6dp"
+            android:paddingBottom="26dp" />
+
+        <!-- IMPORTANCE -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Why Rock Bees Matter"
             android:textColor="#38BDF8"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:fontFamily="@font/playfairdisplay_variablefont_wght"
-            android:paddingBottom="6dp" />
+            android:paddingBottom="8dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Why Rock Bees Are Especially Important:"
-            android:textColor="#38BDF8"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/playfairdisplay_variablefont_wght"
-            android:paddingBottom="6dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="• Primary pollinators of forest and wild plant species\n• Support natural regeneration of forests\n• Maintain genetic diversity by long-distance pollination\n• Cannot be domesticated or easily replaced\n• Support entire food chains indirectly\n• Act as indicators of environmental health\n• Highly vulnerable to habitat destruction and human disturbance"
+            android:text="• Primary pollinators of forest ecosystems\n• Enable natural regeneration of wild plants\n• Maintain genetic diversity through long-range pollination\n• Cannot be domesticated or replaced\n• Support entire food chains\n• Indicators of environmental health"
             android:textColor="#F59E0B"
-            android:textSize="12sp"
-            android:lineSpacingExtra="5dp"
-            android:paddingBottom="30dp" />
+            android:textSize="13sp"
 
-        <!--            android:fontFamily="@font/bitter_variablefont_wght"-->
-
-
-        <!--            android:fontFamily="@font/bitter_variablefont_wght"-->
-
+            android:lineSpacingExtra="6dp"
+            android:paddingBottom="40dp" />
 
     </LinearLayout>
 </ScrollView>
