@@ -76,11 +76,35 @@ class MapFragment : Fragment() {
             GpsMyLocationProvider(requireContext()),
             mapView
         )
+
+        // 🔹 Convert drawable to bitmap for OSMDroid
+        val drawable = requireContext().getDrawable(R.drawable.ic_user_location)!!
+        val bitmap = drawableToBitmap(drawable)
+
+        locationOverlay.setPersonIcon(bitmap)
+
         locationOverlay.enableMyLocation()
         locationOverlay.enableFollowLocation()
 
         mapView.overlays.add(locationOverlay)
     }
+
+    // 🔹 Utility function to convert drawable to bitmap
+    private fun drawableToBitmap(drawable: android.graphics.drawable.Drawable): android.graphics.Bitmap {
+        if (drawable is android.graphics.drawable.BitmapDrawable) {
+            drawable.bitmap?.let { return it }
+        }
+
+        val width = if (drawable.intrinsicWidth > 0) drawable.intrinsicWidth else 64
+        val height = if (drawable.intrinsicHeight > 0) drawable.intrinsicHeight else 64
+
+        val bitmap = android.graphics.Bitmap.createBitmap(width, height, android.graphics.Bitmap.Config.ARGB_8888)
+        val canvas = android.graphics.Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+        return bitmap
+    }
+
 
     private fun loadColoniesFromFirestore() {
 
@@ -108,11 +132,19 @@ class MapFragment : Fragment() {
                             title = "Rock Bee Colony"
                             subDescription =
                                 "Confidence: ${(report.confidence * 100).toInt()}%"
+
+                            icon = getScaledMarker(
+                                R.drawable.ic_bee_marker,
+                                24 // 👈 ideal size (dp)
+                            )
+
+
                             setAnchor(
                                 Marker.ANCHOR_CENTER,
                                 Marker.ANCHOR_BOTTOM
                             )
                         }
+
 
                         colonyMarkers.add(marker)
                         mapView.overlays.add(marker)
@@ -165,6 +197,26 @@ class MapFragment : Fragment() {
             mapView.controller.setZoom(16.5)
         }
     }
+    private fun getScaledMarker(resId: Int, sizeDp: Int): android.graphics.drawable.Drawable {
+        val density = resources.displayMetrics.density
+        val sizePx = (sizeDp * density).toInt()
+
+        val drawable = requireContext().getDrawable(resId)!!
+
+        val bitmap = android.graphics.Bitmap.createBitmap(
+            sizePx,
+            sizePx,
+            android.graphics.Bitmap.Config.ARGB_8888
+        )
+
+        val canvas = android.graphics.Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+
+        return android.graphics.drawable.BitmapDrawable(resources, bitmap)
+    }
+
+
 
     override fun onResume() {
         super.onResume()
